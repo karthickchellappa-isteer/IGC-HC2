@@ -75,7 +75,7 @@ const GeminiChat: React.FC = () => {
               justifyContent: "space-between",
             }}
           >
-            Cybersecurity Coach 🤖
+            Healthcare Cyber Coach 🛡️
             <button
               onClick={() => setOpen(false)}
               style={{
@@ -121,7 +121,7 @@ const GeminiChat: React.FC = () => {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask something..."
+              placeholder="Ask about healthcare cybersecurity..."
               style={{
                 flexGrow: 1,
                 padding: "10px",
