@@ -31,6 +31,8 @@ export interface Scenario {
   type: 'phishing' | 'ransomware' | 'sql_injection' | 'insider_threat' | 'social_engineering' | 'malware';
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   context: string;
+  videoUrl?: string;
+  quizUrl?: string;
   evidence?: {
     emails?: Email[];
     logs?: LogEntry[];

@@ -105,6 +105,34 @@ export const ScenarioDisplay = ({
         </CardContent>
       </Card>
 
+      {/* Google Quiz Link (Dynamic) */}
+      {scenario.quizUrl && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              📘 Quiz Check
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Complete this quiz.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <Button 
+              asChild 
+              variant="secondary"
+              className="w-full"
+            >
+              <a href={scenario.quizUrl} target="_blank" rel="noopener noreferrer">
+                Open Google Quiz
+              </a>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+
+
+
       {/* Evidence Tabs */}
       {scenario.evidence && (
         <Card>

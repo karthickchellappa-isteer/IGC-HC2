@@ -2,7 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Scenario } from '@/types/game';
-import { Shield, AlertTriangle, Clock, Target } from 'lucide-react';
+import { Shield, AlertTriangle, Target } from 'lucide-react';
+import { useState, useRef } from 'react';
 
 interface ScenarioCardProps {
   scenario: Scenario;
@@ -11,6 +12,20 @@ interface ScenarioCardProps {
 }
 
 export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: ScenarioCardProps) => {
+
+  // -------------------------
+  // VIDEO CONTROL LOGIC
+  // -------------------------
+  const [videoCompleted, setVideoCompleted] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleVideoPlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+  };
+  // -------------------------
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'beginner': return 'bg-success text-success-foreground';
@@ -22,7 +37,7 @@ export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: Scenari
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'phishing': return '🎣';
+      case 'F': return '🎣';
       case 'ransomware': return '🔒';
       case 'sql_injection': return '💉';
       case 'insider_threat': return '👤';
@@ -54,6 +69,7 @@ export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: Scenari
               </p>
             </div>
           </div>
+
           <div className="flex flex-col gap-2">
             <Badge className={getDifficultyColor(scenario.difficulty)}>
               {scenario.difficulty}
@@ -69,8 +85,8 @@ export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: Scenari
       
       <CardContent className="space-y-4">
         <p className="text-sm text-foreground">{scenario.description}</p>
-        
-        <div className="grid grid-cols-2 gap-4 text-sm">
+
+        {/* <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
             <span>Threat: {getThreatLevel(scenario.difficulty)}</span>
@@ -79,9 +95,9 @@ export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: Scenari
             <Target className="h-4 w-4 text-muted-foreground" />
             <span>Max Points: {scenario.maxPoints}</span>
           </div>
-        </div>
+        </div> */}
 
-        <div className="flex flex-wrap gap-1">
+        {/* <div className="flex flex-wrap gap-1">
           {scenario.tags.slice(0, 3).map((tag, index) => (
             <Badge key={index} variant="secondary" className="text-xs">
               {tag}
@@ -96,27 +112,45 @@ export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: Scenari
               <span>Evidence Available:</span>
             </div>
             <ul className="list-disc list-inside ml-6 mt-1">
-              {scenario.evidence.emails && (
-                <li>{scenario.evidence.emails.length} email(s)</li>
-              )}
-              {scenario.evidence.logs && (
-                <li>{scenario.evidence.logs.length} log entr(y/ies)</li>
-              )}
-              {scenario.evidence.alerts && (
-                <li>{scenario.evidence.alerts.length} alert(s)</li>
-              )}
+              {scenario.evidence.emails && <li>{scenario.evidence.emails.length} email(s)</li>}
+              {scenario.evidence.logs && <li>{scenario.evidence.logs.length} log entr(y/ies)</li>}
+              {scenario.evidence.alerts && <li>{scenario.evidence.alerts.length} alert(s)</li>}
             </ul>
+          </div>
+        )} */}
+
+        {/* ------------------------------
+            LOCAL VIDEO & START CONTROL
+        -------------------------------- */}
+        {scenario.videoUrl && (
+          <div className="w-full rounded-lg overflow-hidden border">
+
+            <video
+              ref={videoRef}
+              src={scenario.videoUrl}
+              className="w-full h-full cursor-pointer"
+              controls={false}                 // no default controls
+              onClick={handleVideoPlay}         // user must click to start
+              onEnded={() => setVideoCompleted(true)} // enable start when done
+            />
+
+            {!videoCompleted && (
+              <p className="text-xs text-center text-muted-foreground mt-1">
+               
+              </p>
+            )}
           </div>
         )}
 
+        {/* START BUTTON (now controlled by video end) */}
         <Button 
           onClick={() => onStart(scenario)} 
           className="w-full"
-          disabled={isCompleted}
-          variant={isCompleted ? "outline" : "default"}
+          disabled={!videoCompleted}   // disabled until video fully watched
         >
-          {isCompleted ? 'Replay Scenario' : 'Start Mission'}
+          {videoCompleted ? 'Start' : 'Watch the video to continue'}
         </Button>
+
       </CardContent>
     </Card>
   );

@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Player } from '@/types/game';
-import { Trophy, Star, Zap, Target, TrendingUp } from 'lucide-react';
+import { Trophy, Star, Zap, Target, TrendingUp, Shield,Lock, User } from 'lucide-react';
 
 interface PlayerStatsProps {
   player: Player;
@@ -22,66 +22,56 @@ export const PlayerStats = ({ player }: PlayerStatsProps) => {
     }
   };
 
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      {/* Level & XP */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Level & XP</CardTitle>
-          <Star className="h-4 w-4 text-primary" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">Level {player.level}</div>
-          <p className="text-xs text-muted-foreground mb-2">
-            {player.xp} / {xpForNextLevel} XP
-          </p>
-          <Progress value={progressToNextLevel} className="h-2" />
-        </CardContent>
-      </Card>
+ return (
+  <div className="space-y-6">
 
-      {/* Total Score */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Score</CardTitle>
-          <Trophy className="h-4 w-4 text-primary" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{player.totalScore.toLocaleString()}</div>
-          <p className="text-xs text-muted-foreground">
-            {player.weeklyStats.scenariosCompleted} scenarios this week
-          </p>
-        </CardContent>
-      </Card>
+    {/* ------------------------- */}
+    {/* Dynamic Healthcare Cards */}
+    {/* ------------------------- */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-      {/* Current Streak */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
-          <Zap className="h-4 w-4 text-primary" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{player.currentStreak}</div>
-          <p className="text-xs text-muted-foreground">
-            {player.weeklyStats.correctResponses} correct this week
-          </p>
-        </CardContent>
-      </Card>
+      {[
+        {
+          icon: Shield,
+          title: "HIPAA Compliance",
+          description: "Learn essential data protection practices for healthcare",
+        },
+        {
+          icon: Lock,
+          title: "Threat Awareness",
+          description:
+            "Identify and prevent phishing, ransomware, and social engineering",
+        },
+        {
+          icon: User,
+          title: "Personalized Coaching",
+          description:
+            "AI-powered guidance tailored to your role and experience",
+        },
+      ].map((card, index) => {
+        const Icon = card.icon;
 
-      {/* Weekly Average */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Weekly Average</CardTitle>
-          <TrendingUp className="h-4 w-4 text-primary" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {Math.round(player.weeklyStats.averageScore)}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            {player.weeklyStats.correctResponses}/{player.weeklyStats.scenariosCompleted} success rate
-          </p>
-        </CardContent>
-      </Card>
+        return (
+          <Card key={index}>
+            <CardHeader className="flex flex-col items-start space-y-2 pb-2">
+              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                <Icon className="h-5 w-5 text-blue-600" />
+              </div>
+              <CardTitle className="text-lg font-semibold">{card.title}</CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              <p className="text-sm text-muted-foreground">{card.description}</p>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </div>
+
+    {/* -------------------------------- */}
+    {/* Badges & Weak Areas Section */}
+    {/* -------------------------------- */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
       {/* Badges */}
       {player.badges.length > 0 && (
@@ -92,6 +82,7 @@ export const PlayerStats = ({ player }: PlayerStatsProps) => {
               Badges Earned ({player.badges.length})
             </CardTitle>
           </CardHeader>
+
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {player.badges.map((badge) => (
@@ -118,20 +109,28 @@ export const PlayerStats = ({ player }: PlayerStatsProps) => {
               Areas for Improvement
             </CardTitle>
           </CardHeader>
+
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {player.weakAreas.map((area, index) => (
-                <Badge key={index} variant="outline" className="text-warning border-warning">
-                  {area.replace('_', ' ').toUpperCase()}
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="text-warning border-warning"
+                >
+                  {area.replace("_", " ").toUpperCase()}
                 </Badge>
               ))}
             </div>
+
             <p className="text-sm text-muted-foreground mt-2">
               Focus on these areas to improve your cybersecurity skills
             </p>
           </CardContent>
         </Card>
       )}
+
     </div>
-  );
+  </div>
+);
 };

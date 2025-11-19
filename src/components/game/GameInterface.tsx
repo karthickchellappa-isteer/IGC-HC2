@@ -62,13 +62,23 @@ export const GameInterface = () => {
   const renderMenu = () => (
     <div className="space-y-8">
       <div className="text-center space-y-4">
-        <div className="flex items-center justify-center gap-3">
-          <Shield className="h-12 w-12 text-primary" />
-          <h1 className="text-4xl font-bold">Cyber Awareness Coach </h1>
-        </div>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Master cybersecurity through interactive scenarios. Protect your organization from real-world threats.
-        </p>
+        <div className="flex justify-center">
+            <div className="bg-cyan-400 p-4 inline-block rounded-xl shadow-lg">
+              {/* The Shield icon itself, now white */}
+              <Shield className="h-12 w-12 text-white" strokeWidth={1.5} />
+            </div>
+          </div>
+          
+          {/* 2. Main Title: Updated text, with "CyberGuard" slightly darker */}
+          <h1 className="text-5xl font-bold text-slate-800 tracking-tight">
+            <span className="text-slate-900">CyberGuard</span> AI Awareness Coach
+          </h1>
+          
+          {/* 3. Subtitle: Updated descriptive text */}
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Your personal cybersecurity expert for healthcare. Learn to protect patient
+            data, recognize threats through interactive AI coaching.
+          </p>
       </div>
 
       <PlayerStats player={player} />
@@ -85,9 +95,10 @@ export const GameInterface = () => {
             <p className="text-muted-foreground mb-4">
               Choose from various cybersecurity scenarios and test your skills
             </p>
-            <Button className="w-full">
-              Browse Scenarios
+           <Button className="w-full bg-white text-black border border-blue hover:bg-gray-100" variant="outline">
+              Browse
             </Button>
+
           </CardContent>
         </Card>
 
@@ -98,15 +109,15 @@ export const GameInterface = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              Quick Mission
+              Quick quiz 
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">
-              Jump into a scenario tailored to your skill level and weak areas
+              Jump into a quiz tailored to your skill level and weak areas
             </p>
             <Button className="w-full" variant="outline">
-              Start Recommended Scenario
+              Start Recommended quiz
             </Button>
           </CardContent>
         </Card>

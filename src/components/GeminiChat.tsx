@@ -4,6 +4,7 @@ const GeminiChat: React.FC = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: string; text: string }[]>([]);
   const [open, setOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -12,11 +13,11 @@ const GeminiChat: React.FC = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
 
-   const res = await fetch("http://localhost:3001/api/chat", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ message: input })
-});
+    const res = await fetch("http://localhost:3001/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: input }),
+    });
 
     const data = await res.json();
     const botMessage = { role: "bot", text: data.reply };
@@ -27,7 +28,7 @@ const GeminiChat: React.FC = () => {
     <>
       {/* Floating Chat Button */}
       <button
-        onClick={() => setOpen(true)}
+        onClick={() => setOpen((prev) => !prev)}
         style={{
           position: "fixed",
           bottom: "20px",
@@ -52,10 +53,6 @@ const GeminiChat: React.FC = () => {
         <div
           style={{
             position: "fixed",
-            bottom: "90px",
-            right: "20px",
-            width: "320px",
-            height: "420px",
             background: "white",
             borderRadius: "12px",
             boxShadow: "0 6px 26px rgba(0,0,0,0.3)",
@@ -63,31 +60,74 @@ const GeminiChat: React.FC = () => {
             flexDirection: "column",
             padding: "10px",
             zIndex: 1000,
+            transition: "all 0.3s ease-in-out",
+            ...(isExpanded
+              ? {
+                  width: "80vw",
+                  height: "80vh",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }
+              : {
+                  width: "320px",
+                  height: "420px",
+                  bottom: "90px",
+                  right: "20px",
+                }),
           }}
         >
-          {/* Header */}
+          {/* --- MODIFIED HEADER --- */}
           <div
             style={{
               fontSize: "18px",
               fontWeight: "bold",
               marginBottom: "8px",
               display: "flex",
-              justifyContent: "space-between",
+              alignItems: "center", // Keeps text and buttons perfectly straight vertically
+              gap: "12px",          // Adds space between Title and Buttons
+              // justifyContent: "space-between" <--- REMOVED THIS
             }}
           >
-            Cybersecurity Coach 🤖
-            <button
-              onClick={() => setOpen(false)}
-              style={{
-                background: "transparent",
-                border: "none",
-                fontSize: "20px",
-                cursor: "pointer",
-              }}
-            >
-              ✖
-            </button>
+            <span>Healthcare Cyber Coach</span>
+            
+            {/* Wrapper for buttons to keep them grouped */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <button
+                onClick={() => setIsExpanded((prev) => !prev)}
+                title={isExpanded ? "Collapse" : "Expand"}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  fontSize: "22px",
+                  cursor: "pointer",
+                  padding: "0",
+                  color: "#666",
+                  lineHeight: 1,
+                  display: "flex",     // Ensures icon centers in button
+                  alignItems: "center" 
+                }}
+              >
+                {isExpanded ? <>&#10531;</> : <>&#10530;</>}
+              </button>
+
+              <button
+                onClick={() => setOpen(false)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  padding: "0",
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                ✖
+              </button>
+            </div>
           </div>
+          {/* --- END HEADER --- */}
 
           {/* Messages */}
           <div
@@ -121,7 +161,10 @@ const GeminiChat: React.FC = () => {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask something..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSend();
+              }}
+              placeholder="Ask about healthcare cybersecurity..."
               style={{
                 flexGrow: 1,
                 padding: "10px",

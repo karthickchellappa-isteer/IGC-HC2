@@ -8,6 +8,8 @@ export const scenarios: Scenario[] = [
     type: 'phishing',
     difficulty: 'beginner',
     context: 'You work as a financial analyst at TechCorp Industries. It\'s Monday morning and you\'ve just arrived at the office.',
+    videoUrl: "public/video/Suspicious IT Support Email.mp4",
+    quizUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdRSjMPOU3BYB1Oi-4clCw1u-oKf9rDXcUnk2PUreLp2lAF2g/viewform?usp=header",
     story: {
       companyName: 'TechCorp Industries',
       role: 'Financial Analyst',
@@ -72,6 +74,7 @@ export const scenarios: Scenario[] = [
     type: 'ransomware',
     difficulty: 'intermediate',
     context: 'You are the IT Security Specialist at MedTech Solutions. It\'s Tuesday afternoon when multiple help desk tickets start flooding in.',
+    videoUrl: "public/video/Encrypted Files Alert.mp4",
     story: {
       companyName: 'MedTech Solutions',
       role: 'IT Security Specialist',
@@ -151,11 +154,12 @@ export const scenarios: Scenario[] = [
 
   {
     id: 'insider-threat-001',
-    title: 'Unusual Access Patterns',
+    title: 'Impersonation Call Targeting Healthcare Leadership',
     description: 'Security monitoring detects abnormal data access by a trusted employee',
     type: 'insider_threat',
     difficulty: 'advanced',
     context: 'You are the Chief Security Officer at DataSecure Inc. Your threat detection system has flagged concerning behavior from a senior database administrator.',
+    videoUrl: "public/video/Impersonation Call Targeting Healthcare Leadership.mp4",
     story: {
       companyName: 'DataSecure Inc',
       role: 'Chief Security Officer',
@@ -241,7 +245,88 @@ export const scenarios: Scenario[] = [
     maxPoints: 200,
     tags: ['insider-threat', 'investigation', 'monitoring'],
   },
-
+  {
+    id: 'sql-injection-001',
+    title: 'Cybersecurity in healthcare',
+    description: 'Your web application firewall detects suspicious database queries',
+    type: 'sql_injection',
+    difficulty: 'intermediate',
+    context: 'You are a DevSecOps Engineer at RetailPlus, an e-commerce company. The WAF has flagged multiple suspicious requests to your customer portal.',
+    videoUrl: "public/video/Cybersecurity_in_healthcare_with_compilance_with_H.mp4",
+    story: {
+      companyName: 'RetailPlus',
+      role: 'DevSecOps Engineer',
+      setting: 'E-commerce Technology Division',
+    },
+    evidence: {
+      logs: [
+        {
+          id: 'log-006',
+          timestamp: new Date(),
+          source: 'WAF',
+          level: 'critical',
+          message: 'SQL injection attempt detected: \' OR 1=1 -- in login form',
+          ip: '203.45.67.123',
+        },
+        {
+          id: 'log-007',
+          timestamp: new Date(),
+          source: 'Database',
+          level: 'warning',
+          message: 'Unusual query pattern detected: UNION SELECT statements from customer_portal',
+          ip: '203.45.67.123',
+        },
+      ],
+      alerts: [{
+        id: 'alert-003',
+        title: 'Potential Data Exfiltration Attempt',
+        severity: 'high',
+        timestamp: new Date(),
+        description: 'Multiple SQL injection attempts detected from single IP address targeting user database',
+        source: 'Web Application Firewall',
+        status: 'new',
+      }],
+    },
+    choices: [
+      {
+        id: 'choice-004-a',
+        text: 'Block the attacking IP address',
+        description: 'Add the suspicious IP to the blacklist immediately',
+        isCorrect: false,
+        points: 60,
+        explanation: 'Blocking the IP is a good immediate response, but it doesn\'t address the underlying vulnerability that allows SQL injection.',
+      },
+      {
+        id: 'choice-004-b',
+        text: 'Take the application offline immediately',
+        description: 'Shut down the web application to prevent data loss',
+        isCorrect: false,
+        points: 40,
+        consequence: 'Taking the application offline protects data but severely impacts business operations unnecessarily.',
+        explanation: 'While this prevents further attacks, it\'s an extreme measure that significantly impacts business without first trying less disruptive solutions.',
+      },
+      {
+        id: 'choice-004-c',
+        text: 'Implement input validation and parameterized queries',
+        description: 'Fix the vulnerability by implementing proper coding practices',
+        isCorrect: true,
+        points: 180,
+        explanation: 'Perfect! Addressing the root cause by implementing parameterized queries and input validation is the proper long-term solution to prevent SQL injection.',
+      },
+      {
+        id: 'choice-004-d',
+        text: 'Monitor and collect more attack data',
+        description: 'Continue monitoring to understand the attack patterns better',
+        isCorrect: false,
+        points: 20,
+        consequence: 'While you gather data, the attacker continues attempting to access sensitive customer information.',
+        explanation: 'Monitoring is important, but active attacks against customer data require immediate defensive action.',
+      },
+    ],
+    correctChoiceId: 'choice-004-c',
+    maxPoints: 180,
+    tags: ['sql-injection', 'web-security', 'vulnerability-management'],
+  },
   {
     id: 'sql-injection-001',
     title: 'Web Application Vulnerability Alert',
@@ -249,6 +334,7 @@ export const scenarios: Scenario[] = [
     type: 'sql_injection',
     difficulty: 'intermediate',
     context: 'You are a DevSecOps Engineer at RetailPlus, an e-commerce company. The WAF has flagged multiple suspicious requests to your customer portal.',
+    videoUrl: "public/video/In_todays_digital_world_healthcare_organizations_d.mp4",
     story: {
       companyName: 'RetailPlus',
       role: 'DevSecOps Engineer',
@@ -326,11 +412,12 @@ export const scenarios: Scenario[] = [
 
   {
     id: 'social-engineering-001',
-    title: 'Urgent CEO Request',
+    title: 'The Cybersecurity Awarness coach With HIPAA Compilance',
     description: 'You receive a call from someone claiming to be the CEO requesting sensitive information',
     type: 'social_engineering',
     difficulty: 'beginner',
     context: 'You work as an HR Coordinator at GlobalTech Corp. You receive an urgent phone call during lunch break.',
+    videoUrl: "public/video/The Cybersecurity Awarness coach With HIPAA Compilance.mp4",  
     story: {
       companyName: 'GlobalTech Corp',
       role: 'HR Coordinator',
