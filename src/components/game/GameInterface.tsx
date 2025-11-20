@@ -24,7 +24,7 @@ export const GameInterface = () => {
     nextScenario,
     resetSession,
   } = useGameState();
-  
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [gameState, setGameState] = useState<GameState>('menu');
   const [currentFeedback, setCurrentFeedback] = useState(null);
 
@@ -172,11 +172,14 @@ export const GameInterface = () => {
                 Recommended
               </Badge>
             )}
-            <ScenarioCard
-              scenario={scenario}
-              onStart={handleStartScenario}
-              isCompleted={player.completedScenarios.includes(scenario.id)}
-            />
+    <ScenarioCard
+  scenario={scenario}
+  onStart={handleStartScenario}
+  isCompleted={player.completedScenarios.includes(scenario.id)}
+  activeVideo={activeVideo}
+  setActiveVideo={setActiveVideo}
+/>
+
           </div>
         ))}
       </div>

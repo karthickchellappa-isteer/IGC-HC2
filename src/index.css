@@ -5,7 +5,13 @@
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
-
+/* Global Cast Block for Chrome */
+video::-internal-media-controls-overlay-cast-button {
+  display: none !important;
+}
+#media-controls-overlay-portal-container {
+  display: none !important;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

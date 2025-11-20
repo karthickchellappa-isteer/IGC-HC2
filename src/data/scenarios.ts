@@ -8,7 +8,7 @@ export const scenarios: Scenario[] = [
     type: 'phishing',
     difficulty: 'beginner',
     context: 'You work as a financial analyst at TechCorp Industries. It\'s Monday morning and you\'ve just arrived at the office.',
-    videoUrl: "public/video/Suspicious IT Support Email.mp4",
+    videoUrl: "videos/Fake_IT_Support_Email_Targeting_Healthcare_Staff.mp4",
     quizUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdRSjMPOU3BYB1Oi-4clCw1u-oKf9rDXcUnk2PUreLp2lAF2g/viewform?usp=header",
     story: {
       companyName: 'TechCorp Industries',
@@ -74,7 +74,7 @@ export const scenarios: Scenario[] = [
     type: 'ransomware',
     difficulty: 'intermediate',
     context: 'You are the IT Security Specialist at MedTech Solutions. It\'s Tuesday afternoon when multiple help desk tickets start flooding in.',
-    videoUrl: "public/video/Encrypted Files Alert.mp4",
+    videoUrl: "public/videos/Ransomware_Infection_Affecting_Clinical_Files.mp4",
     story: {
       companyName: 'MedTech Solutions',
       role: 'IT Security Specialist',
@@ -159,7 +159,7 @@ export const scenarios: Scenario[] = [
     type: 'insider_threat',
     difficulty: 'advanced',
     context: 'You are the Chief Security Officer at DataSecure Inc. Your threat detection system has flagged concerning behavior from a senior database administrator.',
-    videoUrl: "public/video/Impersonation Call Targeting Healthcare Leadership.mp4",
+    videoUrl: "public/videos/Impersonation_Call_Targeting_Healthcare_Leadership.mp4",
     story: {
       companyName: 'DataSecure Inc',
       role: 'Chief Security Officer',
@@ -246,13 +246,13 @@ export const scenarios: Scenario[] = [
     tags: ['insider-threat', 'investigation', 'monitoring'],
   },
   {
-    id: 'sql-injection-001',
+    id: 'sql-injection-002',
     title: 'Cybersecurity in healthcare',
     description: 'Your web application firewall detects suspicious database queries',
     type: 'sql_injection',
     difficulty: 'intermediate',
     context: 'You are a DevSecOps Engineer at RetailPlus, an e-commerce company. The WAF has flagged multiple suspicious requests to your customer portal.',
-    videoUrl: "public/video/Cybersecurity_in_healthcare_with_compilance_with_H.mp4",
+    videoUrl: "videos/Cybersecurity_in_healthcare_with_compilance_with_H.mp4",
     story: {
       companyName: 'RetailPlus',
       role: 'DevSecOps Engineer',
@@ -331,10 +331,10 @@ export const scenarios: Scenario[] = [
     id: 'sql-injection-001',
     title: 'Web Application Vulnerability Alert',
     description: 'Your web application firewall detects suspicious database queries',
-    type: 'sql_injection',
+    type: 'malware',
     difficulty: 'intermediate',
     context: 'You are a DevSecOps Engineer at RetailPlus, an e-commerce company. The WAF has flagged multiple suspicious requests to your customer portal.',
-    videoUrl: "public/video/In_todays_digital_world_healthcare_organizations_d.mp4",
+    videoUrl: "videos/In_todays_digital_world_healthcare_organizations_d.mp4",
     story: {
       companyName: 'RetailPlus',
       role: 'DevSecOps Engineer',
@@ -417,7 +417,7 @@ export const scenarios: Scenario[] = [
     type: 'social_engineering',
     difficulty: 'beginner',
     context: 'You work as an HR Coordinator at GlobalTech Corp. You receive an urgent phone call during lunch break.',
-    videoUrl: "public/video/The Cybersecurity Awarness coach With HIPAA Compilance.mp4",  
+    videoUrl: "public/videos/The_Cyber_security_Coach_and_HIPAA_compilance_3min.mp4",  
     story: {
       companyName: 'GlobalTech Corp',
       role: 'HR Coordinator',

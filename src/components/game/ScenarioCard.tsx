@@ -1,30 +1,56 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Scenario } from '@/types/game';
-import { Shield, AlertTriangle, Target } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { Scenario } from "@/types/game";
+import { useState, useRef, useEffect } from "react";
 
 interface ScenarioCardProps {
   scenario: Scenario;
   onStart: (scenario: Scenario) => void;
   isCompleted?: boolean;
+  activeVideo: string | null;
+  setActiveVideo: (id: string | null) => void;
 }
 
-export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: ScenarioCardProps) => {
-
-  // -------------------------
-  // VIDEO CONTROL LOGIC
-  // -------------------------
+export const ScenarioCard = ({
+  scenario,
+  onStart,
+  isCompleted = false,
+  activeVideo,
+  setActiveVideo,
+}: ScenarioCardProps) => {
   const [videoCompleted, setVideoCompleted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handleVideoPlay = () => {
-    if (videoRef.current) {
+  // Toggle play/pause when user clicks the video
+  const handlePlayPause = () => {
+    if (!videoRef.current) return;
+
+    // If clicking a different video, switch active video and play
+    if (activeVideo !== scenario.id) {
+      setActiveVideo(scenario.id);
       videoRef.current.play();
+      return;
+    }
+
+    // Toggle play/pause
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+    } else {
+      videoRef.current.pause();
     }
   };
-  // -------------------------
+
+  // Pause other videos and reset completion state
+  useEffect(() => {
+    if (!videoRef.current) return;
+
+    if (activeVideo !== scenario.id) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setVideoCompleted(false);
+    }
+  }, [activeVideo, scenario.id]);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -44,15 +70,6 @@ export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: Scenari
       case 'social_engineering': return '🗣️';
       case 'malware': return '🦠';
       default: return '⚠️';
-    }
-  };
-
-  const getThreatLevel = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner': return 'Low';
-      case 'intermediate': return 'Medium';
-      case 'advanced': return 'High';
-      default: return 'Unknown';
     }
   };
 
@@ -82,75 +99,36 @@ export const ScenarioCard = ({ scenario, onStart, isCompleted = false }: Scenari
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         <p className="text-sm text-foreground">{scenario.description}</p>
 
-        {/* <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-            <span>Threat: {getThreatLevel(scenario.difficulty)}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Target className="h-4 w-4 text-muted-foreground" />
-            <span>Max Points: {scenario.maxPoints}</span>
-          </div>
-        </div> */}
-
-        {/* <div className="flex flex-wrap gap-1">
-          {scenario.tags.slice(0, 3).map((tag, index) => (
-            <Badge key={index} variant="secondary" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-
-        {scenario.evidence && (
-          <div className="text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              <span>Evidence Available:</span>
-            </div>
-            <ul className="list-disc list-inside ml-6 mt-1">
-              {scenario.evidence.emails && <li>{scenario.evidence.emails.length} email(s)</li>}
-              {scenario.evidence.logs && <li>{scenario.evidence.logs.length} log entr(y/ies)</li>}
-              {scenario.evidence.alerts && <li>{scenario.evidence.alerts.length} alert(s)</li>}
-            </ul>
-          </div>
-        )} */}
-
-        {/* ------------------------------
-            LOCAL VIDEO & START CONTROL
-        -------------------------------- */}
         {scenario.videoUrl && (
-          <div className="w-full rounded-lg overflow-hidden border">
-
+          <div className="relative w-full rounded-lg overflow-hidden border">
             <video
               ref={videoRef}
               src={scenario.videoUrl}
-              className="w-full h-full cursor-pointer"
-              controls={false}                 // no default controls
-              onClick={handleVideoPlay}         // user must click to start
-              onEnded={() => setVideoCompleted(true)} // enable start when done
+              className="w-full cursor-pointer"
+              controls={false}
+              onClick={handlePlayPause}
+              onEnded={() => setVideoCompleted(true)}
             />
 
-            {!videoCompleted && (
-              <p className="text-xs text-center text-muted-foreground mt-1">
-               
-              </p>
+            {!videoCompleted && videoRef.current?.paused && (
+              <div className="absolute inset-0 flex items-center justify-center text-white bg-black/40 cursor-pointer">
+                ▶ Click to play
+              </div>
             )}
           </div>
         )}
 
-        {/* START BUTTON (now controlled by video end) */}
-        <Button 
-          onClick={() => onStart(scenario)} 
+        <Button
           className="w-full"
-          disabled={!videoCompleted}   // disabled until video fully watched
+          disabled={!videoCompleted}
+          onClick={() => onStart(scenario)}
         >
-          {videoCompleted ? 'Start' : 'Watch the video to continue'}
+          {videoCompleted ? "Start" : "Watch the video to continue"}
         </Button>
-
       </CardContent>
     </Card>
   );
