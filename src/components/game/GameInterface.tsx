@@ -11,8 +11,11 @@ import { useGameState } from '@/hooks/useGameState';
 import { scenarios, getRecommendedScenario } from '@/data/scenarios';
 import { Scenario } from '@/types/game';
 import { Shield, Play, RotateCcw, Home } from 'lucide-react';
+import GeminiChat from '../GeminiChat';
 
-type GameState = 'menu' | 'scenario-select' | 'playing' | 'feedback';
+
+
+type GameState = 'menu' | 'scenario-select' | 'playing' | 'feedback' | 'quick-quiz-menu';
 
 export const GameInterface = () => {
   const {
@@ -47,6 +50,8 @@ export const GameInterface = () => {
     setGameState('scenario-select');
   };
 
+
+
   const handleBackToMenu = () => {
     resetSession();
     setCurrentFeedback(null);
@@ -60,26 +65,47 @@ export const GameInterface = () => {
   };
 
   const renderMenu = () => (
+
+
     <div className="space-y-8">
       <div className="text-center space-y-4">
         <div className="flex justify-center">
-            <div className="bg-cyan-400 p-4 inline-block rounded-xl shadow-lg">
-              {/* The Shield icon itself, now white */}
-              <Shield className="h-12 w-12 text-white" strokeWidth={1.5} />
-            </div>
+          <div className="bg-cyan-400 p-4 inline-block rounded-xl shadow-lg">
+            {/* The Shield icon itself, now white */}
+            <Shield className="h-12 w-12 text-white" strokeWidth={1.5} />
           </div>
-          
-          {/* 2. Main Title: Updated text, with "CyberGuard" slightly darker */}
-          <h1 className="text-5xl font-bold text-slate-800 tracking-tight">
-            <span className="text-slate-900">CyberGuard</span> AI Awareness Coach
-          </h1>
-          
-          {/* 3. Subtitle: Updated descriptive text */}
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Your personal cybersecurity expert for healthcare. Learn to protect patient
-            data, recognize threats through interactive AI coaching.
-          </p>
+        </div>
+
+        {/* 2. Main Title: Updated text, with "CyberGuard" slightly darker */}
+        <h1 className="text-5xl font-bold text-slate-800 tracking-tight">
+          <span className="text-slate-900">CyberGuard</span> AI Awareness Coach
+        </h1>
+
+        {/* 3. Subtitle: Updated descriptive text */}
+        <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          Your personal cybersecurity expert for healthcare. Learn to protect patientdata, recognize threats through interactive AI coaching.
+        </p>
       </div>
+      <Card className="hover:shadow-lg transition-all h-100" onClick={() => setGameState('scenario-select')}>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Play className="h-5 w-5" />
+            AI Chat
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground mb-4 h-100">
+            Choose from various cybersecurity scenarios and test your skills
+          </p>
+          <Button className="w-full bg-white text-black border border-blue hover:bg-gray-100" variant="outline">
+            Send
+          </Button>
+          {/* <div>
+            <GeminiChat inline />
+          </div> */}
+        </CardContent>
+      </Card>
+
 
       <PlayerStats player={player} />
 
@@ -95,7 +121,7 @@ export const GameInterface = () => {
             <p className="text-muted-foreground mb-4">
               Choose from various cybersecurity scenarios and test your skills
             </p>
-           <Button className="w-full bg-white text-black border border-blue hover:bg-gray-100" variant="outline">
+            <Button className="w-full bg-white text-black border border-blue hover:bg-gray-100" variant="outline">
               Browse
             </Button>
 
@@ -103,13 +129,15 @@ export const GameInterface = () => {
         </Card>
 
         <Card className="cursor-pointer hover:shadow-lg transition-all" onClick={() => {
-          const recommended = getRecommendedScenario(player);
-          if (recommended) handleStartScenario(recommended);
+          // Replaced setGameState with opening the external link directly.
+          // **IMPORTANT**: Replace the placeholder URL below with your actual Google Site Quiz link.
+          const googleQuizUrl = "https://docs.google.com/forms/d/e/1FAIpQLSe8jkUoA0qnj-6ABz-Cu3Yn1X_CfSD-XC7u0HLTmSaKs0SXPA/viewform?usp=dialog";
+          window.open(googleQuizUrl, '_blank');
         }}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              Quick quiz 
+              Quick quiz
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -122,6 +150,9 @@ export const GameInterface = () => {
           </CardContent>
         </Card>
       </div>
+
+
+
 
       {session.scenariosCompleted > 0 && (
         <Card>
@@ -172,13 +203,13 @@ export const GameInterface = () => {
                 Recommended
               </Badge>
             )}
-    <ScenarioCard
-  scenario={scenario}
-  onStart={handleStartScenario}
-  isCompleted={player.completedScenarios.includes(scenario.id)}
-  activeVideo={activeVideo}
-  setActiveVideo={setActiveVideo}
-/>
+            <ScenarioCard
+              scenario={scenario}
+              onStart={handleStartScenario}
+              isCompleted={player.completedScenarios.includes(scenario.id)}
+              activeVideo={activeVideo}
+              setActiveVideo={setActiveVideo}
+            />
 
           </div>
         ))}
@@ -240,6 +271,55 @@ export const GameInterface = () => {
       </div>
     );
   };
+
+  const renderQuickQuizMenu = () => (
+    < div className="space-y-6">
+      {/* Header/Back Button logic */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold">Quick Quiz Selection</h2>
+          <p className="text-muted-foreground">Choose your next step for skill assessment.</p>
+        </div>
+        {/* Re-use handleBackToMenu to return to the main menu */}
+        <Button variant="outline" onClick={handleBackToMenu}>
+          <Home className="h-4 w-4 mr-2" />
+          Back to Menu
+        </Button>
+      </div>
+
+      {/* The Two Card Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        {/* 1. Sample or Trial Video Card */}
+        <Card className="hover:shadow-lg transition-all">
+          <CardHeader><CardTitle>Sample or Trial Video</CardTitle></CardHeader>
+          <CardContent className="text-center space-y-4">
+            <p>Watch a quick intro video.</p>
+            <Button className="w-full">Watch Video</Button>
+          </CardContent>
+        </Card>
+
+        {/* 2. Start Quiz Card */}
+        <Card className="hover:shadow-lg transition-all">
+          <CardHeader><CardTitle>Start Tailored Quiz</CardTitle></CardHeader>
+          <CardContent className="text-center space-y-4">
+            <p>Jump into a quiz tailored to your skill level.</p>
+            <Button
+              className="w-full"
+              // When this button is clicked, it executes the original logic to start the recommended quiz
+              onClick={() => {
+                const recommended = getRecommendedScenario(player);
+                if (recommended) handleStartScenario(recommended);
+                else alert("No recommended scenario available.");
+              }}
+            >
+              Start Recommended Quiz Now
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-background">

@@ -99,37 +99,6 @@ export const PlayerStats = ({ player }: PlayerStatsProps) => {
           </CardContent>
         </Card>
       )}
-
-      {/* Weak Areas */}
-      {player.weakAreas.length > 0 && (
-        <Card className="md:col-span-2 lg:col-span-4">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5" />
-              Areas for Improvement
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {player.weakAreas.map((area, index) => (
-                <Badge
-                  key={index}
-                  variant="outline"
-                  className="text-warning border-warning"
-                >
-                  {area.replace("_", " ").toUpperCase()}
-                </Badge>
-              ))}
-            </div>
-
-            <p className="text-sm text-muted-foreground mt-2">
-              Focus on these areas to improve your cybersecurity skills
-            </p>
-          </CardContent>
-        </Card>
-      )}
-
     </div>
   </div>
 );

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+
 const GeminiChat: React.FC = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: string; text: string }[]>([]);

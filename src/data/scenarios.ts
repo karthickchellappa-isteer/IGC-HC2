@@ -75,6 +75,7 @@ export const scenarios: Scenario[] = [
     difficulty: 'intermediate',
     context: 'You are the IT Security Specialist at MedTech Solutions. It\'s Tuesday afternoon when multiple help desk tickets start flooding in.',
     videoUrl: "public/videos/Ransomware_Infection_Affecting_Clinical_Files.mp4",
+    quizUrl:  "https://docs.google.com/forms/d/e/1FAIpQLSexfwoCiJ1AQtKMl7JvjxIT_Wg7QeUcfcnTd6YzwbmiKjh_OA/viewform?usp=dialog",
     story: {
       companyName: 'MedTech Solutions',
       role: 'IT Security Specialist',
@@ -160,6 +161,7 @@ export const scenarios: Scenario[] = [
     difficulty: 'advanced',
     context: 'You are the Chief Security Officer at DataSecure Inc. Your threat detection system has flagged concerning behavior from a senior database administrator.',
     videoUrl: "public/videos/Impersonation_Call_Targeting_Healthcare_Leadership.mp4",
+    quizUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdlqxm7Okpun1194nyAonCadsQiW850JvvCCEZdzQZUkSmabw/viewform?usp=publish-editor",
     story: {
       companyName: 'DataSecure Inc',
       role: 'Chief Security Officer',
@@ -253,6 +255,7 @@ export const scenarios: Scenario[] = [
     difficulty: 'intermediate',
     context: 'You are a DevSecOps Engineer at RetailPlus, an e-commerce company. The WAF has flagged multiple suspicious requests to your customer portal.',
     videoUrl: "videos/Cybersecurity_in_healthcare_with_compilance_with_H.mp4",
+    quizUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfMooKf9RBn0KYFhunuNaVNAIxf8TnTSWZch954qoaDlBBCZQ/viewform?usp=dialog",
     story: {
       companyName: 'RetailPlus',
       role: 'DevSecOps Engineer',
@@ -335,6 +338,7 @@ export const scenarios: Scenario[] = [
     difficulty: 'intermediate',
     context: 'You are a DevSecOps Engineer at RetailPlus, an e-commerce company. The WAF has flagged multiple suspicious requests to your customer portal.',
     videoUrl: "videos/In_todays_digital_world_healthcare_organizations_d.mp4",
+    quizUrl: "https://docs.google.com/forms/d/e/1FAIpQLSe8jkUoA0qnj-6ABz-Cu3Yn1X_CfSD-XC7u0HLTmSaKs0SXPA/viewform?usp=dialog",
     story: {
       companyName: 'RetailPlus',
       role: 'DevSecOps Engineer',
@@ -417,7 +421,8 @@ export const scenarios: Scenario[] = [
     type: 'social_engineering',
     difficulty: 'beginner',
     context: 'You work as an HR Coordinator at GlobalTech Corp. You receive an urgent phone call during lunch break.',
-    videoUrl: "public/videos/The_Cyber_security_Coach_and_HIPAA_compilance_3min.mp4",  
+    videoUrl: "public/videos/The_Cyber_security_Coach_and_HIPAA_compilance_3min.mp4",
+    quizUrl:  "https://docs.google.com/forms/d/e/1FAIpQLSfMooKf9RBn0KYFhunuNaVNAIxf8TnTSWZch954qoaDlBBCZQ/viewform?usp=dialog",
     story: {
       companyName: 'GlobalTech Corp',
       role: 'HR Coordinator',

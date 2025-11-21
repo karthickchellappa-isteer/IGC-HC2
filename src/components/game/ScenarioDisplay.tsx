@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Scenario, Choice } from '@/types/game';
 import { Mail, FileText, AlertTriangle, Building, User, MapPin } from 'lucide-react';
-import { SecureVideoPlayer } from '../SecureVideoPlayer';
+// import { SecureVideoPlayer } from '../SecureVideoPlayer';
 
 interface ScenarioDisplayProps {
   scenario: Scenario;
@@ -131,83 +131,14 @@ export const ScenarioDisplay = ({
         </Card>
       )}
 
-
-      {/* Training Video - NON SKIPPABLE */}
-      {scenario.videoUrl && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              Training Video (Required)
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              You must watch the full video before continuing. Skipping is disabled.
-            </p>
-          </CardHeader>
-          <CardContent>
-            <SecureVideoPlayer 
-              videoUrl={scenario.videoUrl}
-              onComplete={() => {
-                // This runs when video finishes
-                console.log("User watched full video!");
-                // You can save progress here later
-              }}
-            />
-          </CardContent>
-        </Card>
-      )}
-
       {/* Response Choices */}
       <Card>
         <CardHeader>
-          <CardTitle>Your Response</CardTitle>
+          <CardTitle>--</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Choose your action as a cybersecurity professional
+            Choose your quiz's as a cybersecurity professional
           </p>
         </CardHeader>
-        <CardContent className="space-y-3">
-          {scenario.choices.map((choice) => (
-            <Card
-              key={choice.id}
-              className={`cursor-pointer transition-all ${getChoiceStyle(choice)}`}
-              onClick={() => !showFeedback && onChoiceSelect(choice)}
-            >
-              <CardContent className="pt-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-current flex items-center justify-center text-xs">
-                    {String.fromCharCode(65 + scenario.choices.indexOf(choice))}
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-semibold mb-1">{choice.text}</h4>
-                    {choice.description && (
-                      <p className="text-sm text-muted-foreground">{choice.description}</p>
-                    )}
-                    {showFeedback && selectedChoice?.id === choice.id && (
-                      <div className="mt-3 p-3 rounded-lg bg-muted">
-                        <p className="text-sm font-medium text-foreground">
-                          {choice.isCorrect ? '✅ Correct!' : '❌ Incorrect'}
-                        </p>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {choice.explanation}
-                        </p>
-                        {choice.consequence && (
-                          <p className="text-sm text-destructive mt-2">
-                            <strong>Consequence:</strong> {choice.consequence}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-          
-          {selectedChoice && !showFeedback && (
-            <Button onClick={onSubmit} className="w-full" size="lg">
-              Submit Response
-            </Button>
-          )}
-        </CardContent>
       </Card>
     </div>
   );
