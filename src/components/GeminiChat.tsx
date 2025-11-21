@@ -1,29 +1,143 @@
 import React, { useState } from "react";
 
+interface GeminiChatProps {
+  inline?: boolean;
+}
 
-const GeminiChat: React.FC = () => {
+const GeminiChat: React.FC<GeminiChatProps> = ({ inline = false }) => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{ role: string; text: string }[]>([]);
   const [open, setOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
     const userMessage = { role: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
+    setIsLoading(true);
 
-    const res = await fetch("http://localhost:3001/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input }),
-    });
+    try {
+      const res = await fetch("http://localhost:3001/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMessage.text }),
+      });
 
-    const data = await res.json();
-    const botMessage = { role: "bot", text: data.reply };
-    setMessages((prev) => [...prev, botMessage]);
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status}`);
+      }
+
+      const data = await res.json();
+      const botMessage = { role: "bot", text: data.reply };
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      console.error("Chat error:", error);
+      const errorMessage = { 
+        role: "bot", 
+        text: "Sorry, I'm having trouble connecting. Please make sure the backend server is running on port 3001." 
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // If inline mode, render the chat directly without floating button
+  if (inline) {
+    return (
+      <div
+        style={{
+          background: "white",
+          borderRadius: "12px",
+          border: "1px solid #ddd",
+          display: "flex",
+          flexDirection: "column",
+          padding: "10px",
+          height: "400px",
+        }}
+      >
+        {/* Header */}
+        <div
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            marginBottom: "8px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+          }}
+        >
+          Healthcare Cyber Coach 🛡️
+        </div>
+
+        {/* Messages */}
+        <div
+          style={{
+            flexGrow: 1,
+            overflowY: "auto",
+            border: "1px solid #ddd",
+            borderRadius: "6px",
+            padding: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          {messages.map((msg, i) => (
+            <p
+              key={i}
+              style={{
+                textAlign: msg.role === "user" ? "right" : "left",
+                background: msg.role === "user" ? "#e1f5fe" : "#f1f1f1",
+                padding: "6px 10px",
+                borderRadius: "6px",
+                margin: "6px 0",
+              }}
+            >
+              <strong>{msg.role === "user" ? "👤" : "🤖"}</strong> {msg.text}
+            </p>
+          ))}
+          {isLoading && (
+            <p style={{ textAlign: "left", color: "#666", fontStyle: "italic" }}>
+              🤖 Thinking...
+            </p>
+          )}
+        </div>
+
+        {/* Input Box */}
+        <div style={{ display: "flex", gap: "8px" }}>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && !isLoading && handleSend()}
+            placeholder="Ask about healthcare cybersecurity..."
+            disabled={isLoading}
+            style={{
+              flexGrow: 1,
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
+          />
+          <button
+            onClick={handleSend}
+            disabled={isLoading}
+            style={{
+              padding: "10px 14px",
+              background: isLoading ? "#ccc" : "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              cursor: isLoading ? "not-allowed" : "pointer",
+            }}
+          >
+            ➤
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

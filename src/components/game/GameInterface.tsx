@@ -86,7 +86,7 @@ export const GameInterface = () => {
           Your personal cybersecurity expert for healthcare. Learn to protect patientdata, recognize threats through interactive AI coaching.
         </p>
       </div>
-      <Card className="hover:shadow-lg transition-all h-100" onClick={() => setGameState('scenario-select')}>
+      <Card className="hover:shadow-lg transition-all h-100">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Play className="h-5 w-5" />
@@ -94,15 +94,12 @@ export const GameInterface = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground mb-4 h-100">
-            Choose from various cybersecurity scenarios and test your skills
+          <p className="text-muted-foreground mb-4">
+            Chat with our AI Healthcare Cybersecurity Coach
           </p>
-          <Button className="w-full bg-white text-black border border-blue hover:bg-gray-100" variant="outline">
-            Send
-          </Button>
-          {/* <div>
+          <div>
             <GeminiChat inline />
-          </div> */}
+          </div>
         </CardContent>
       </Card>
 
