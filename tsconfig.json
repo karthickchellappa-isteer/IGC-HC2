@@ -5,15 +5,20 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "baseUrl": ".",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./src/*"]
-    },
+      "@/*": ["*"]
+    }
+  },
+  "include": ["src"]
+ },
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "skipLibCheck": true,
     "allowJs": true,
     "noUnusedLocals": false,
     "strictNullChecks": false
-  }
-}
+   }
+

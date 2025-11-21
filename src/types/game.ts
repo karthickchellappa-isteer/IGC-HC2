@@ -28,9 +28,11 @@ export interface Scenario {
   id: string;
   title: string;
   description: string;
-  type: 'phishing' | 'ransomware' | 'sql_injection' | 'insider_threat' | 'social_engineering' | 'malware';
+  type: 'phishing' | 'ransomware' | 'sql_injection' | 'insider_threat' | 'social_engineering' | 'malware' |'quick_test';
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   context: string;
+  videoUrl?: string;
+  quizUrl?: string;
   evidence?: {
     emails?: Email[];
     logs?: LogEntry[];
